@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 25.1.0  # Укажите актуальную версию Black
+    hooks:
+      - id: black
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.0  # Укажите актуальную версию isort
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0  # Актуальная версия pre-commit хуков
+    hooks:
+      - id: end-of-file-fixer  # Проверяет наличие пустой строки в конце файла
+      - id: trailing-whitespace  # Удаляет лишние пробелы
