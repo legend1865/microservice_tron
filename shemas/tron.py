@@ -12,4 +12,3 @@ class GetTron(BaseModel):
     bandwidth: float | None
     energy: float | None
     balance: float
-
