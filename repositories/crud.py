@@ -1,27 +1,19 @@
-from sqlalchemy import select
+from tronpy import Tron
 
-from db import new_session
-from models.tron_model import Tron
 from mongodb.mongodb import mongodb_history
 
-
-async def get_tron_data(address):
-    async with new_session() as session:
-        wallet_model = await session.scalar(
-            select(Tron).filter(Tron.address == address)
-        )
-
-        return wallet_model
+client = Tron()
 
 
-async def add_new_wallet(add_wallet):
-    async with new_session() as session:
-        new_wallet_model = add_wallet.model_dump()
-        new_wallet = Tron(**new_wallet_model)
-        session.add(new_wallet)
-        await session.commit()
-        await session.refresh(new_wallet)
-        return new_wallet
+async def get_tron_data(wallet_address: str):
+    account_info = client.get_account(wallet_address)
+    resources = client.get_account_resource(wallet_address)
+
+    balance = account_info.get("balance", 0)
+    bandwidth = resources.get("freeNetRemaining", 0)
+    energy = resources.get("EnergyLimit", 0)
+
+    return {"balance": (balance / 1_000_000), "bandwidth": bandwidth, "energy": energy}
 
 
 async def get_history_wallet(address: str, page: int, limit: int):
