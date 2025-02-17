@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from functools import wraps
 
 from models.request_wallet import HistoryGetWallet
-from mongodb.mongodb import mongodb_collection
+from mongodb.mongodb import mongodb_history
 
 
 def safe_history(func):
@@ -14,7 +14,7 @@ def safe_history(func):
             date=str(datetime.now(timezone.utc)),
             wallet=kwargs.get("address"),
         )
-        await mongodb_collection.insert_one(record.model_dump())
+        await mongodb_history.insert_one(record.model_dump())
 
         return result
 

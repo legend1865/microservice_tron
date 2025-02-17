@@ -6,4 +6,4 @@ mongodb_client = AsyncIOMotorClient(
     f"mongodb://{setting.MONGO_HOST}:{setting.MONGO_PORT}/"
 )
 mongodb_db = mongodb_client.get_database("tron")
-mongodb_collection = mongodb_db.get_collection("history")
+mongodb_history = mongodb_db.get_collection("history")

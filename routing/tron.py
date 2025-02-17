@@ -2,8 +2,9 @@ from fastapi import APIRouter, HTTPException, Query
 from tronpy import Tron
 
 from mongodb.decorator import safe_history
-from repositories.crud import add_new_wallet, get_tron_data
-from shemas.tron import GetTron, PostTron
+from mongodb.mongodb import mongodb_history
+from repositories.crud import add_new_wallet, get_history_wallet, get_tron_data
+from shemas.tron import GetHistoryTron, GetTron, HistoryTron, PostTron
 
 router = APIRouter(
     prefix="/tron",
@@ -32,3 +33,10 @@ async def get_data(
         raise HTTPException(status_code=404, detail="Wallet not found")
 
     return tron_get_model
+
+
+@router.get("/history")
+async def get_history(address: str, page: int = 1, limit: int = 5) -> GetHistoryTron:
+    history_wallet = await get_history_wallet(address, page, limit)
+
+    return history_wallet
